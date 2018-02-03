@@ -1,15 +1,64 @@
  <html>
  <head>
-      <title>Angular JS Modules</title>
-      <script src = "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-route.min.js"></script>
-      <script src = "/angularjs/src/module/autofillModule.js"></script>
-      <script src = "/angularjs/src/module/autofillController.js"></script>
+ 	<meta name="viewport" content="width=device-width" />
+ 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><i class="fas fa-plus"></i>
+       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+       <link rel="stylesheet" href="autocss.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+       <script>
+         var mainApp = angular.module("mainApp", []);         
+         mainApp.controller('studentController', function($scope) {
+            $scope.isShowAdd=false;
+
+             $scope.titles = [ "Home" , "Home Bangalore" , "Home Delhi" , "Home Kolkata" ];
+			  $scope.$watch('item.title', function(oldValue, newValue) {
+			      if(oldValue != newValue){
+			        	if($scope.titles.indexOf($scope.item.title) == -1) {
+			        		 	$scope.newItem=$scope.item.title;
+			        		    $scope.isShowAdd=true;			        		 				        		 
+			        	}else{
+			        		$scope.isShowAdd=false;
+			        	} 
+			        	if(!$scope.item.title){
+			        		$scope.isShowAdd=false;
+			        	}
+			      }
+			    });
+
+	         $scope.addItemInList = function(){
+	         	if($scope.newItem || $scope.newItem !=undefined || $scope.newItem != null){
+	         		$scope.titles.push($scope.newItem);
+	         	}
+	         	$scope.isShowAdd=false;
+	         	$scope.item.title='';
+	         }
+
+         });
+      </script>
+     
  </head>
 
  <body>
-<div ng-app="autofillModule" ng-controller="autofillController">
-<h1>jii</h1>
+  <body>
+      <h2>AngularJSApplication</h2>
+      
+      <div ng-app = "mainApp" ng-controller = "studentController">
+        <div class="col-md-12 col-sm-12 col-xs-12 mainapp" align="justify">
+        	<div class="autofill">{{titles}}
+        		 <input type="text" class="form-control form-class" ng-model="item.title" list="comicstitle">
+        		 <span class="Icon glyphicon glyphicon-plus-sign" ng-if="isShowAdd" ng-click="addItemInList()"></span>
+        		 <datalist id="comicstitle">
+				    <option  ng-repeat="ttl in titles" value="{{ttl}}"> 
+				  </datalist>
+        	</div>	
+        </div>
+      </div>
+      
+      
+      
+   
 
-</div>
  </body>
  </html>
